@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="SysUserRole" >
+	 
+  
+  <!-- 删除【根据用户】 -->
+  <delete id="deleteByUserId" parameterType="java.lang.Integer" >
+    	delete from sys_userrole     where userId = #userId#
+  </delete>
+  
+  
+  <!-- 查询用户拥有的角色 -->
+  <select id="queryUserRoles" resultType="java.util.HashMap" parameterType="java.lang.Integer" >
+	    select r.roleId,r.roleDesc,r.roleName,r.remark,ur.userRoleId,ur.userId
+		from sys_role r ,sys_userrole ur
+		where   ur.roleId=r.roleId  and ur.userId=#{userId}
+  </select>   
+  
+  <!-- 查询角色拥有的用户 -->
+  <select id="queryRoleUsers" resultType="java.util.HashMap" parameterType="java.lang.Integer" >
+	    select u.userId, u.userName, u.email,  u.telePhone
+		from sys_user u ,sys_userrole ur
+		where   ur.userId=u.userId  and ur.roleId=#{roleId}
+  </select>  
+  
+  <!-- 添加 --> 
+  <insert id="insert" parameterType="SysUserRole" >
+	    insert into sys_userrole (userRoleId, roleId, userId, createdTime)
+	    values (#userRoleId:INTEGER#, #roleId:INTEGER#, #userId:INTEGER#, #createdTime:TIMESTAMP#)
+  </insert>
+   
+   
+</mapper>

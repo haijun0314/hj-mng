@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace = "Customer">
+
+<!-- 根据account账号查询 -->
+<select id="queryByAccount" parameterClass="java.lang.String" resultClass="com.jyw.entity.Customer">
+	
+	select * from customer where  account = #account:varchar#
+	
+</select>
+
+<!-- 更新信息 -->
+
+ <update id="updateById" parameterClass="com.jyw.entity.Customer"> 
+
+ 	update customer  
+ 	<dynamic prepend="set">
+ 		<isNotEmpty	prepend="," property="moneyTotal"> 
+ 			moneyTotal = #moneyTotal:Double#
+ 		</isNotEmpty> 
+ 		<isNotEmpty	prepend="," property="moneyUsable"> 
+ 			moneyUsable = #moneyUsable:Double# 
+ 		</isNotEmpty>
+ 		<isNotEmpty prepend="," property="status">
+ 			status = #status:varchar#
+ 		</isNotEmpty> 
+ 		<isNotEmpty prepend="," property="gentleManDegree">
+ 			gentleManDegree = #gentleManDegree:varchar#
+ 		</isNotEmpty> 
+ 		<isNotEmpty prepend="," property="cerId">
+ 			cerId = #cerId:varchar#
+ 		</isNotEmpty> 
+ 		<isNotEmpty prepend="," property="isCheck">
+ 			isCheck = #isCheck#
+ 		</isNotEmpty>
+ 		<isNotEmpty prepend="," property="countPublish">
+ 			countPublish = #countPublish#
+ 		</isNotEmpty> 
+ 		<isNotEmpty prepend="," property="countPublishFail">
+ 			countPublishFail = #countPublishFail#
+ 		</isNotEmpty>  
+ 	</dynamic> 
+ 	where customerId = #customerId# 
+
+ </update>
+<!-- 更新信息 -->
+
+ <update id="update" parameterClass="com.jyw.entity.Customer"> 
+
+ 	update customer  
+ 	<dynamic prepend="set">
+ 		<isNotEmpty	prepend="," property="moneyTotal"> 
+ 			moneyTotal = moneyTotal-#moneyTotal#
+ 		</isNotEmpty> 
+ 		<isNotEmpty	prepend="," property="moneyUsable"> 
+ 			moneyUsable =moneyUsable-#moneyUsable# 
+ 		</isNotEmpty>
+ 	</dynamic> 
+ 	where customerId = #customerId# 
+
+ </update>
+
+<!-- 根据id查询返回实体类 -->
+
+<select id="queryCustomerById" parameterClass="java.lang.Integer" resultClass="com.jyw.entity.Customer">
+
+select * from customer where customerId = #customerId#
+
+</select>
+
+<!-- 根据id查询返回map -->
+
+<select id="findById" parameterClass="java.lang.Integer" resultClass="java.util.HashMap">
+
+select 		c.customerId,c.headPic,c.customerName,c.sex,c.age,c.cerId,c.account,c.gentlemanAge,c.isCheck,c.education,c.homeAddress,
+			c.company,c.telephone,c.countPublishSuccess,c.countPublishFail,c.countComplain,c.countTotal,c.moneyUsable,c.moneyTotal,
+			c.gentleManDegree,c.perfect,c.companyAddress,c.myWebsite,c.registTime,c.status,c.label,c.dynamicState,c.email,c.QQ,c.imei,c.imsi,
+			c.countPublishTrade,c.countServiceBindding,c.countServiceFail,c.countServiceSuccess,c.countServiceTrade,c.countRevoke,
+			c.mModel,c.osType,c.school,c.duty,c.studentID,c.reportCount,
+			o.cityName
+from 		dict_opencity o ,customer c where o.cityCode = c.cityCode and customerId = #customerId#
+
+</select>
+
+<!-- 分页查询用户列表 -->
+<select id="queryPagelist" parameterClass="org.jxjz.base.model.PageModel" resultClass="java.util.HashMap">
+
+	select 
+	c.customerId,c.headPic,c.customerName,c.sex,c.age,c.cerId,c.account,c.gentlemanAge,c.isCheck,c.education,c.homeAddress,
+	c.company,c.telephone,c.countPublishSuccess,c.countPublishFail,c.countComplain,c.countTotal,c.moneyUsable,c.moneyTotal,
+	c.gentleManDegree,c.perfect,c.companyAddress,c.myWebsite,c.registTime,c.status,c.label,c.dynamicState,c.email,c.QQ,c.imei,c.imsi,
+	c.countPublishTrade,c.countServiceBindding,c.countServiceFail,c.countServiceSuccess,c.countServiceTrade,c.countRevoke,
+	c.mModel,c.osType,c.school,c.duty,c.studentID,c.reportCount,o.cityName
+	
+	from dict_opencity o ,customer c where o.cityCode = c.cityCode
+	<dynamic>
+		<isNotEmpty prepend="and" property="params.startTime">
+             <![CDATA[ registTime >= #params.startTime# ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="params.endTime">
+             <![CDATA[ registTime <= #params.endTime# ]]>
+        </isNotEmpty>  
+		<isNotEmpty prepend="and" property="params.telephone">
+			 telephone like CONCAT('%', #params.telephone#, '%')
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="params.cityCode">
+			c.cityCode =  #params.cityCode:varchar#
+		</isNotEmpty>
+	</dynamic>
+	order by registTime Desc
+	limit #startRow#,#pageSize#
+</select>
+
+<!-- 查询总数 -->
+<select id="queryCount" parameterClass="org.jxjz.base.model.PageModel" resultClass="java.lang.Integer">
+
+	select count(*) from dict_opencity o ,customer c where o.cityCode = c.cityCode
+	<dynamic>
+		<isNotEmpty prepend="and" property="params.startTime">
+             <![CDATA[ registTime >= #params.startTime# ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="params.endTime">
+             <![CDATA[ registTime <= #params.endTime# ]]>
+        </isNotEmpty>  
+		<isNotEmpty prepend="and" property="params.telephone">
+			 telephone like CONCAT('%', #params.telephone#, '%')
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="params.cityCode">
+			c.cityCode =  #params.cityCode:varchar#
+		</isNotEmpty>
+	</dynamic>
+
+</select>
+
+</sqlMap>

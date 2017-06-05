@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<decorators defaultdir="/">
+	<!--excludes结点则指定了哪些路径的请求不使用任何模板 -->
+	<excludes>
+		<pattern>/*Ajax*</pattern>
+		<pattern>/static/*</pattern>
+		<pattern>/html/*</pattern>
+		<pattern>/login.jsp</pattern>
+		<pattern>/test/*</pattern>
+		<pattern>/jsp/error/*</pattern>
+		
+		<!-- 业务 -->
+		
+	</excludes>
+	<!--decorator结点指定了模板的位置和文件名，通过pattern来指定哪些路径引用哪个模板 -->
+	
+ 
+	<!-- 登录后台主页布局 -->
+	<decorator name="indexLayout" page="/jsp/layout/indexLayout.jsp">
+		<pattern>/forward*</pattern>
+		<pattern>/jsp/help/features.jsp</pattern>
+		<pattern>/help/*</pattern>
+	</decorator>
+	<!-- 系统管理布局 -->
+	<decorator name="sysLayout" page="/jsp/layout/sysLayout.jsp">
+		<pattern>/sys/sysUser</pattern>
+		<pattern>/sys/role</pattern>
+		<pattern>/index</pattern>
+	</decorator>
+	 
+</decorators>

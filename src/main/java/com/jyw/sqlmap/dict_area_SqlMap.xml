@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="DictArea" >
+ 
+  <!-- 查询数量 -->
+  <select id="queryCount" parameterClass="org.jxjz.base.model.PageModel" resultClass="java.lang.Integer"  >
+    	select count(*) from dict_area   where  1=1
+    	<dynamic >
+	      <isNotEmpty prepend="and" property="params.areaname" >
+	        areaName like concat('', #params.areaname#, '%')
+	      </isNotEmpty>
+	      <isNotEmpty prepend="and" property="params.status" >
+	        status = #params.status:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="and" property="params.pcode" >
+	       pCode = #params.pcode:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="and" property="params.delFlag" >
+	        delFlag = #params.delFlag:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="and" property="params.ShengCode" >
+	        pCode    =#params.ShengCode#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="and" property="params.ShiCode" >
+	        pCode   =#params.ShiCode#
+	      </isNotEmpty>
+   		 </dynamic>
+  </select>
+  <!-- 查询分页数据 -->
+  <select id="queryPagelist" parameterClass="org.jxjz.base.model.PageModel" resultClass="com.jyw.entity.DictArea" >
+   		 select * from dict_area  where  1=1
+    	<dynamic >
+	      <isNotEmpty prepend="and" property="params.areaname" >
+	        areaName like concat('', #params.areaname#, '%')
+	      </isNotEmpty>
+	      <isNotEmpty prepend="and" property="params.status" >
+	        status = #params.status:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="and" property="params.pcode" >
+	        pCode = #params.pcode:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="and" property="params.delFlag" >
+	        delFlag = #params.delFlag:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="and" property="params.ShengCode" >
+	        pCode    =#params.ShengCode#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="and" property="params.ShiCode" >
+	        pCode   =#params.ShiCode#
+	      </isNotEmpty>
+   		 </dynamic>
+   		  order  by  createdTime  desc
+   		 
+   		 limit #startRow#,#pageSize#
+  </select> 
+   <!-- 查询区域数据  -->
+  <select id="queryList" parameterClass="org.jxjz.base.ibatis.Query" resultClass="java.util.HashMap" >
+   		 select * from dict_area  where 1=1 
+	    <dynamic >
+	      <isNotEmpty prepend="and" property="params.areaname" >
+	        AreaName = #params.areaname:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="and" property="params.status" >
+	        Status = #params.status:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="and" property="params.pcode" >
+	        PCode = #params.pcode:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="and" property="params.delFlag" >
+	        delFlag = #params.delFlag:VARCHAR#
+	      </isNotEmpty>
+	      
+	      
+	    </dynamic>
+  </select>  
+      
+        <!-- 更新区域 -->
+  <update id="updateById" parameterClass="com.jyw.entity.DictArea" >
+	    update dict_area
+	    <dynamic prepend="set" >
+	    
+	      <isNotEmpty prepend="," property="pcode" >
+	        PCode = #pcode:VARCHAR#
+	      </isNotEmpty>
+	       <isNotEmpty prepend="," property="desc" >
+	        Desc = #desc:VARCHAR#
+	      </isNotEmpty>
+	       <isNotEmpty prepend="," property="type" >
+	        Type = #type:VARCHAR#
+	      </isNotEmpty>
+	    </dynamic>
+	    where AreaCode = #areacode#
+	    </update>
+</sqlMap>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<b:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:b="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/security 
+    http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+
+	<http auto-config="true"  use-expressions="true">
+		<!-- 不要过滤图片等静态资源 -->
+		<intercept-url pattern="/**/*.jpg" filters="none" />
+		<intercept-url pattern="/**/*.png" filters="none" />
+		<intercept-url pattern="/**/*.gif" filters="none" />
+		<intercept-url pattern="/**/*.css" filters="none" />
+		<intercept-url pattern="/**/*.js" filters="none" />
+
+		<intercept-url pattern="/CXFServlet/*" filters="none" />
+		<!-- 登录页面和忘记密码页面不过滤  -->
+		
+		<intercept-url pattern="/login.jsp" filters="none" />
+		<intercept-url pattern="/login*" filters="none" /> 
+		<!-- 非业务处理页面不过滤 -->
+		<intercept-url pattern="/jsp/error/sec/*.jsp" filters="none" />
+		<intercept-url pattern="/test/*.jsp" filters="none" />
+		 
+		<form-login login-page="/login.jsp"	 authentication-failure-url="/login?loginError" 
+			default-target-url="/login?loginSuccess" />
+		<logout logout-url="/j_spring_security_logout" invalidate-session="true"
+			logout-success-url="/login?logoutSuccess"/>
+		<!--  authentication-success-handler-ref="myAuthenticationDispatcher" --> 
+		<access-denied-handler ref="accessDeniedHandler"/>  
+		<!-- "记住我"功能，采用持久化策略（将用户的登录信息存放在数据库表中）
+		<remember-me data-source-ref="dataSource" /> -->
+		<!-- 检测失效的sessionId,超时时定位到另外一个URL -->
+		<session-management invalid-session-url="/jsp/error/sec/sessionTimeout.jsp" >
+		    <!--每个用户最大只有一个活动的session  error-if-maximum-exceeded【禁止后边的用户登录，默认的实现是使之前的会话失效】 -->
+			<concurrency-control max-sessions="100" expired-url="/jsp/error/sec/sessionTimeout.jsp" session-registry-ref="sessionRegistry" error-if-maximum-exceeded="true" /> 
+		</session-management>
+		<!-- 增加一个自定义的filter，放在FILTER_SECURITY_INTERCEPTOR之前，
+		实现用户、角色、权限、资源的数据库管理。 11/3/23 -->
+		<custom-filter ref="mySecurityFilter" before="FILTER_SECURITY_INTERCEPTOR"/> 
+		
+	</http>
+	
+	<!-- 一个自定义的filter，必须包含authenticationManager,accessDecisionManager,securityMetadataSource三个属性。 -->
+	<b:bean id="mySecurityFilter" 	class="org.jxjz.framework.security.MySecurityFilterInterceptor">
+		<!-- 用户拥有的权限 -->  
+		<b:property name="authenticationManager" ref="myAuthenticationManager"/>
+		<!-- 用户是否拥有所请求资源的权限 -->  
+		<b:property name="accessDecisionManager" ref="myAccessDecisionManager"/>
+		<!-- 资源与权限对应关系 -->
+		<b:property name="securityMetadataSource" ref="mySecurityMetadataSource"/>
+	</b:bean>
+	
+
+	<!-- 注意能够为authentication-manager 设置alias别名  -->
+	<authentication-manager alias="myAuthenticationManager">
+		<authentication-provider user-service-ref="userDetailsManager">
+	</authentication-provider>
+		
+	</authentication-manager>
+
+	<!-- 访问决策器，决定某个用户具有的角色，是否有足够的权限去访问某个资源。11/3/23 -->
+	<b:bean id="myAccessDecisionManager" class="org.jxjz.framework.security.MyAccessDecisionManager">	</b:bean>  
+	<!-- 资源源数据定义，将所有的资源和权限对应关系建立起来，即定义某一资源可以被哪些角色去访问。11/3/23 -->
+	<b:bean id="mySecurityMetadataSource" class="org.jxjz.framework.security.MySecurityMetadataSource">	</b:bean> 
+	<b:bean id="securityService" class="org.jxjz.framework.security.SecurityService"></b:bean>
+
+
+	<b:bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl" ></b:bean>
+	<!-- 
+	
+	<b:bean id="curSessionController" class="org.springframework.security.concurrent.ConcurrentSessionControllerImpl">
+	 	<b:property name="maximumSessions" value="1"> </b:property>
+	 	<b:property name="sessionRegistry" ><b:ref local="sessionRegistry"/> </b:property>
+	 	<b:property name="exceptionIfMaximumExceeded" value="true"> </b:property>
+	</b:bean>
+	
+	 -->
+	 
+	<!-- 用户的密码加密或解密 -->
+	<b:bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
+	  
+	<!-- 用户详细信息管理：数据源、用户缓存（通过数据库管理用户、角色、权限、资源）。 -->
+	<b:bean id="userDetailsManager" class="org.jxjz.framework.security.MyUserDetailsService">
+		 
+	</b:bean>	 
+	 
+	 
+	<b:bean id="accessDeniedHandler"   class="org.jxjz.framework.security.deny.MyAccessDeniedHandlerImpl">  
+		<b:property name="accessDeniedUrl" value="/jsp/error/sec/accessDenied.jsp" />  
+	</b:bean>  	 
+	 
+	 
+	 
+	 
+	 
+</b:beans>

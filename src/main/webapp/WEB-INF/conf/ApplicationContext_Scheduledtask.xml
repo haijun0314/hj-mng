@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<!-- (装载定时器)-->
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers"> 
+			<list>
+			    <ref bean="persistenceCacheLogJob" /> 
+			     
+				 
+
+			</list>
+		</property>
+	</bean>
+
+ 
+	<!-- 持久化日志到数据库 -->
+	<bean id="persistenceCacheLogJob" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail">
+			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+				<property name="targetObject" ref="sysLogService" />
+				<property name="targetMethod" value="persistenceCacheLog" />
+				<property name="concurrent" value="false" />
+			</bean>
+		</property>
+		<property name="startDelay" value="5000" />
+		<property name="repeatInterval" value="10000" />
+	</bean>
+	
+	 
+	 	
+	
+</beans>

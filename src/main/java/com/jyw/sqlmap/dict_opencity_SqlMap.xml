@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="DictOpenCity" >
+ 
+ 
+  <!-- 查询开放地区数据 -->
+  <select id="queryList" parameterClass="org.jxjz.base.ibatis.Query" resultClass="com.jyw.entity.DictOpenCity" >
+   		 select * from dict_opencity where 1 =1
+  	      <isNotEmpty prepend="and" property="params.cityCode" >
+	        cityCode = #params.cityCode#
+	      </isNotEmpty> 		 
+   		 
+   		 order by cityCode ASC
+  </select>
+   <select id="queryCity" parameterClass="org.jxjz.base.ibatis.Query" resultClass="java.util.HashMap" >
+   		select o.cityName as cityName,o.cityCode as cityCode from  dict_opencity o where  o.cityCode not in (select u.CityCode from sys_user u where 1=1  )
+  	      <isNotEmpty prepend="and" property="params.cityCode" >
+	        cityCode = #params.cityCode#
+	      </isNotEmpty> 		 
+   		 
+   		 order by cityCode ASC
+  </select> 
+   <!-- 更新系统用户 -->
+  <update id="updateById" parameterClass="com.jyw.entity.DictOpenCity" >
+	    update dict_opencity
+	    <dynamic prepend="set" >
+	      <isNotEmpty prepend="," property="cityName" >
+	        cityName = #cityName:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="openTime" >
+	        openTime = #openTime:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="remark" >
+	        remark = #remark:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="telPhone" >
+	        telPhone = #telPhone:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="contact" >
+	        contact = #contact:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="status" >
+	        status = #status:CHAR#
+	      </isNotEmpty>
+	    </dynamic>
+	    where cityCode = #cityCode#
+  </update>   
+  
+  <!-- 添加开放城市 -->
+  <insert id="insert" parameterClass="com.jyw.entity.DictOpenCity">
+  
+  	insert into dict_opencity(cityName,cityCode,openTime,remark,telPhone,serviceAddress,contact,status,address,qq) 
+  	values(#cityName#,#cityCode#,#openTime#,#remark#,#telPhone#,#serviceAddress#,#contact#,#status#,#address#,#qq#)
+  
+  </insert>
+  
+  
+</sqlMap>

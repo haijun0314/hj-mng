@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uploadcfg-list>
+	<uploadcfg id="1" name="defaltConfig">
+	    <encoding  value="UTF-8"/>
+		<rootUploadDir value="uploadFiles" />
+	</uploadcfg>
+	<uploadcfg id="2" name="productPhoto">
+		<fileSize  value="10" />
+		<fileCount value="10" />
+		<uploadDir value="productPhotos" />
+	</uploadcfg>
+	<uploadcfg id="3" name="brandLogo">
+		<fileSize  value="10" />
+		<fileCount value="10" />
+		<uploadDir value="brandLogos" />
+	</uploadcfg>
+</uploadcfg-list>

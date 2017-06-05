@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="SysRoleMenu" >
+	 
+  <!-- 删除【根据角色】 -->
+  <delete id="deleteByRoleId" parameterType="java.lang.Integer" >
+    	delete from sys_rolemenu     where roleId =#{roleId}
+  </delete> 
+   
+  <!-- 根据角色id查询   -->
+  <select id="queryList" resultType="java.util.HashMap" parameterType="Query" >
+	   select distinct(srm.menuId) from sys_rolemenu srm,sys_menubar sm
+	   where  sm.menuId=srm.menuId
+	      	<if test="@MyOgnl@isNotEmpty(params.roleId)">
+	      	 and  roleId = #{params.roleId}
+	      	</if>
+	      	<if test="@MyOgnl@isNotEmpty(params.menuId)">
+	      	  and menuId = #{params.menuId}
+	      	</if>
+	   order by  srm.menuId
+  </select> 
+   
+  <!--  根据权限编号加载角色 -->
+  <select id="loadMenuRoles" resultType="java.util.HashMap" parameterType="java.lang.Integer" >
+	   select rm.roleMenuId, rm.roleId, rm.menuId   
+	   from sys_rolemenu rm ,sys_role  r
+	   where   menuId = #{menuId}  and  r.roleId= rm.roleId
+  </select>  
+   
+  <!-- 添加  -->
+  <insert id="insert" parameterType="SysRoleMenu" >
+	    insert into sys_rolemenu (roleMenuId, roleId, menuId, createdTime)
+	    values (#{roleMenuId}, #{roleId}, #{menuId}, #{createdTime})
+  </insert>
+ 
+</mapper>

@@ -1,0 +1,21 @@
+	<meta charset="utf-8">
+	<table class="table table-striped">
+	  <thead>
+	    <tr>
+	      <th>编辑</th>
+	      <th>名</th>
+	      <th>姓</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <tr ng-repeat="user in users">
+	      <td>
+	        <button class="btn" ng-click="editUser(user.userid)">
+	          <span class="glyphicon glyphicon-pencil"></span>编辑
+	        </button>
+	      </td>
+	      <td>{{ user.username }}</td>
+	      <td>{{ user.telephone }}</td>
+	    </tr>
+	  </tbody>
+	</table>

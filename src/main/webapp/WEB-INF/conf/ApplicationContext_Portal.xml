@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"  
+		    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   
+		    xmlns:p="http://www.springframework.org/schema/p"  
+		    xmlns:context="http://www.springframework.org/schema/context"  
+		    xmlns:aop="http://www.springframework.org/schema/aop"   
+		    xmlns:tx="http://www.springframework.org/schema/tx"  
+		    xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"  
+		    xsi:schemaLocation="http://www.springframework.org/schema/beans   
+		    http://www.springframework.org/schema/beans/spring-beans-3.2.xsd  
+		    http://www.springframework.org/schema/context   
+		    http://www.springframework.org/schema/context/spring-context-3.2.xsd  
+		    http://www.springframework.org/schema/aop  
+		    http://www.springframework.org/schema/aop/spring-aop-3.2.xsd  
+		    http://www.springframework.org/schema/tx  
+		    http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
+<!-- PORTAL管理-->
+	<!-- 主页管理-->
+	<bean id="portalAction"  class="org.jxjz.framework.portal.action.PortalAction"></bean>
+	<bean id="loginAction"   class="org.jxjz.framework.portal.action.LoginAction"></bean>
+	
+	<bean id="portalService"   class="org.jxjz.framework.portal.service.PortalServiceImpl"></bean>
+	
+	<bean id="portalAppDAO"   class="org.jxjz.framework.portal.dao.PortalAppDAO"></bean>
+	<bean id="portalConfigUserDAO"   class="org.jxjz.framework.portal.dao.PortalConfigUserDAO">
+	
+	</bean>
+	<bean id="portalConfigRoleDAO"   class="org.jxjz.framework.portal.dao.PortalConfigRoleDAO">
+	
+	</bean>
+	<bean id="portletDefDAO"   class="org.jxjz.framework.portal.dao.PortletDefDAO">
+	
+	</bean>
+	 
+</beans>

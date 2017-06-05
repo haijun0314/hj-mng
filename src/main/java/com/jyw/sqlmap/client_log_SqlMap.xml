@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ClientLog">
+
+<!-- 分页查询日志记录 -->
+
+<select id="queryPagelist" parameterClass="org.jxjz.base.model.PageModel" resultClass="java.util.HashMap">
+
+	select cl.logId,cl.content,cl.logTime,cl.customerId,cl.delFlag,c.account,c.customerName from client_log cl,customer c
+	where cl.customerId = c.customerId 
+	
+	<dynamic>
+		<isNotEmpty prepend="and" property="params.startTime">
+			<![CDATA[cl.logTime >= #params.startTime:datetime#]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="params.endTime">
+			<![CDATA[cl.logTime <= #params.endTime:datetime#]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="params.delFlag">
+			cl.delFlag = #params.delFlag#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="params.content">
+			cl.content like CONCAT ('%',#params.content#,'%')
+		</isNotEmpty>
+	</dynamic>
+	order by logTime DESC
+	limit #startRow#,#pageSize#
+</select>
+
+<!-- 查询日志记录总条数 -->
+
+<select id="queryCount" parameterClass="org.jxjz.base.model.PageModel" resultClass="java.lang.Integer">
+	
+	select count(*) from client_log cl,customer c where cl.customerId = c.customerId
+	
+	<dynamic>
+		<isNotEmpty prepend="and" property="params.startTime">
+			<![CDATA[cl.logTime >= #params.startTime:datetime#]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="params.endTime">
+			<![CDATA[cl.logTime <= #params.endTime:datetime#]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="params.delFlag">
+			cl.delFlag = #params.delFlag#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="params.content">
+			cl.content like CONCAT ('%',#params.content#,'%')
+		</isNotEmpty>
+	</dynamic>
+</select>
+
+</sqlMap>

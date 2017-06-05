@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<import resource="ApplicationContext_Framework.xml" />
+	<import resource="ApplicationContext_Security.xml" />
+    <import resource="ApplicationContext_SpringMVC.xml" />
+    <import resource="ApplicationContext_Jms.xml" />
+    
+    <!-- 	
+    <import resource="ApplicationContext_Cache.xml" />
+    <import resource="ApplicationContext_Scheduledtask.xml" />
+    
+   
+    <import resource="ApplicationContext_Service.xml" /> -->
+</beans>

@@ -1,0 +1,25 @@
+注释
+
+1、类
+/**
+ * 系统用户实体类
+ * author lihaijun
+ * createTime   2014-11-21
+ */
+ 2、方法
+/**
+ * 检测角色是否被使用
+ * author lihaijun
+ */
+ 3 接口方法
+//删除角色
+public void deleteSysRole(SysRole sr) ;
+
+
+命名 
+类
+ProductBrandController  
+ProductBrandService
+ProductBrandServiceImpl
+ProductBrand
+ProductBrandDAO

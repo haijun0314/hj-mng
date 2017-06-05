@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SysMenubar" >
+  
+	<!-- 提取公共WHERE -->
+	<sql id="common_sql_where">
+	      <where>
+	      	<if test="@MyOgnl@isNotEmpty(params.menulevel)">
+	      		menulevel = #{params.menulevel}
+	      	</if>
+	      	<if test="@MyOgnl@isNotEmpty(params.parentId)">
+	      		parentId = #{params.parentId}
+	      	</if>
+	       
+	      	<if test="@MyOgnl@isNotEmpty(params.menuName)">
+	      		menuName like concat('', #{params.menuName}, '%')
+	      	</if>
+	      	<if test="@MyOgnl@isNotEmpty(params.menuCode)">
+	      	   menuCode like concat('', #{params.menuCode}, '%')
+	      	</if>
+	      </where>
+	</sql>  
+  <!-- 通用查询 -->
+  <select id="queryList" resultType="SysMenubar" parameterType="Query" >
+	    select  menuId, menuName, menulevel, menuCode, parentId, title, location, image, createdTime,
+	       		status,  isDeaf, descriptions, authorityType, systemId
+	    from sys_menubar  
+ 		<include refid="common_sql_where"/>
+  </select>
+  
+  
+  <!-- 加载用户菜单权限 -->
+  <select id="loadUserMenubars" resultType="SysMenubar" parameterType="Query" >
+	    select distinct(s.menuId), menuName, menulevel, menuCode, parentId, title, location, image,  isDeaf, descriptions, authorityType, systemId
+	    from sys_menubar s ,sys_rolemenu  r 
+	    where  status=0 and s.menuId  =r.menuId  and   roleId in 
+	    <foreach collection="params.roleIds" close=")" open="(" separator="," item="item" >
+	    	#{item}
+	    </foreach>
+	    order  by  menuCode  asc 	    
+  </select> 
+  <!-- 查询数量 -->
+  <select id="queryCount" parameterType="PageModel" resultType="java.lang.Integer" >
+    	select count(*) from sys_menubar
+    	<include refid="common_sql_where"/>
+  </select>
+  
+  <!-- 查询分页数据 -->
+  <select id="queryPagelist" parameterType="PageModel" resultType="SysMenubar" >
+   		 select * from sys_menubar
+   		 <include refid="common_sql_where"/>
+   		  order by menuCode
+   		 limit #{startRow},#{pageSize}
+  </select> 
+  
+  <!-- 根据ID删除 -->
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+   		 delete from sys_menubar where menuId = #{menuId}
+  </delete>
+  
+  <!-- 添加 -->
+  <insert id="insert" parameterType="SysMenubar" >
+	    insert into sys_menubar (menuId, menuName, menuLevel, menuCode, parentId, title, location,
+	      image, createdTime, isDeaf, descriptions, authorityType, systemId)
+	    values (#{menuId}, #{menuName}, #{menuLevel}, #{menuCode}, #{parentId}, #{title}, #{location}, #{image}, #{createdTime},
+	      #{isDeaf}, #{descriptions},   #{authorityType}, #{systemId})
+  </insert>
+  
+  <!-- 根据Id更新 -->
+  <update id="updateById" parameterType="SysMenubar" >
+	    update sys_menubar   
+	     <trim prefix="set" suffixOverrides=",">  
+	     	updatedTime=#{updatedTime},
+	     	<if test="@MyOgnl@isNotEmpty(menuName)">
+	      		menuName = #{menuName},
+	      	</if>
+	        <if test="@MyOgnl@isNotEmpty(title)">
+	       	 	title = #{title},
+	     	</if>
+	     	<if test="@MyOgnl@isNotEmpty(location)">
+	       	 	location = #{location},
+	     	</if>
+	      	<if test="@MyOgnl@isNotEmpty(image)">
+	        	image = #{image}
+	     	</if>
+	     </trim>
+	    where menuId = #{menuId}
+  </update>
+  <!-- 根据Id更新 -->
+  <update id="updateStatus" parameterType="SysMenubar" >
+	    update sys_menubar
+	   <trim prefix="set" prefixOverrides=",">  
+	     <if test="@MyOgnl@isNotEmpty(status)">
+	        status = #{status}
+	      </if>
+	    </trim>
+	    where menuCode like concat('', #{menuCode}, '%')
+  </update>
+   <!-- 查询id查询   -->
+  <select id="findById" parameterType="java.lang.Integer" resultType="SysMenubar" >
+    	select * from sys_menubar  where   menuId = #{parentId}
+  </select>   
+</mapper>

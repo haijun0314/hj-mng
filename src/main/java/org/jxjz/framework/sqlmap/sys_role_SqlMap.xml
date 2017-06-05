@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="SysRole" >
+
+<!-- 删除 -->
+<delete id="deleteById"    parameterType="java.lang.Integer" >
+ 	 delete from sys_role where roleId =#{roleId} 
+</delete>
+
+<!-- 添加 -->
+<insert id="insert" parameterType="SysRole" >
+	insert into sys_role (roleId, roleDesc, roleName, remark, createdTime,createdBy,resource)
+    values (#{roleId}, #{roleDesc}, #{roleName},#{remark}, #{createdTime},#{createdBy},#{resource})
+</insert>
+ 
+<!-- 更新 --> 
+<update id="updateById" parameterType="SysRole" >
+	update sys_role   
+	<trim prefix="set" suffixOverrides=",">
+		<if test="@MyOgnl@isNotEmpty(updatedTime)">
+			updatedTime = #{updatedTime},
+		</if>
+		<if test="@MyOgnl@isNotEmpty(roleDesc)">
+			roleDesc = #{roleDesc},
+		</if>
+		<if test="@MyOgnl@isNotEmpty(roleName)">
+			roleName = #{roleName},
+		</if>
+		<if test="@MyOgnl@isNotEmpty(remark)">
+			remark = #{remark}
+		</if>
+	</trim>
+	 where roleId = #{roleId}
+</update>
+
+<!-- 根据ID查询 --> 
+<select id="findById" parameterType="int"  resultType="SysRole" >
+ 		 select * from sys_role   where roleId = #{roleId}
+</select>
+<sql id="pageWhereSql">
+	<where> 
+	    <if test="@MyOgnl@isNotEmpty(params.roleDesc)">
+	         roleDesc =  #{params.roleDesc}
+	    </if> 
+	    <if test="@MyOgnl@isNotEmpty(params.resource)">
+	         resource =  #{params.resource}
+	    </if>
+	</where>
+</sql>   
+
+<!-- 分页查询 查询数量 -->
+<select id="queryCount" parameterType="PageModel" resultType="java.lang.Integer" >
+  	select count(*) from sys_role
+  	<include refid="pageWhereSql"/>
+</select>
+<!-- 分页查询 查询数据 -->
+<select id="queryPagelist" parameterType="PageModel" resultType="SysRole" >
+	select * from sys_role
+	<include refid="pageWhereSql"/>
+	order  by  createdTime desc
+	 limit #{startRow},#{pageSize}
+</select>
+
+<!-- 通用查询 -->
+<select id="queryList" parameterType="Query" resultType="java.util.HashMap" >
+	select roleId,roleName,roleDesc  from sys_role  
+	<include refid="pageWhereSql"></include>
+</select>
+ 
+</mapper>

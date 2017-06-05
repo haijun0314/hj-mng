@@ -1,0 +1,210 @@
+
+.show{
+	display: block;
+}
+.hide{
+	display: none;
+}
+/*
+添加时必添的红色*
+*/
+.star_red{
+	color: #f00;
+}
+/*
+logo_zh-cn.png图标
+*/
+.logo_zh-cn {
+    background: url("../image/logo_zh-cn.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+/*
+分页pager,总条数
+*/
+.infobox-data-number{
+	display:block;
+	font-size:16px;
+	margin:2px 0 4px;
+	position:relative;
+	text-shadow:1px 1px 0 rgba(0,0,0,0.15)
+}
+/*
+logo图片
+*/
+.logo{
+	background-image: url("../image/logo.png");
+}
+/*
+zipFile.java中用到
+*/
+.nowrap{
+	white-space: nowrap;
+}
+/*
+本地弹框的表头样式
+*/
+.modal-header {
+	background:#428bca;
+}
+/*
+左侧菜单
+*/
+.submenu a:hover {
+    background: none repeat scroll 0 0 #dfdfdf;
+}
+.selected a:hover {
+    background: #d15b47;
+    font-size: 16px;
+}
+.selected a {
+	background: none repeat scroll 0 0 #d15b47;
+	font-size: 16px;
+}
+.selected font {
+	color:#ffffff; 
+}
+.menu-name{
+	color:#585858; 
+}
+/*
+上面菜单
+*/
+.navbar-btn{
+    background-image: none !important;
+    border-radius: 0;
+    box-shadow: none !important;
+    color: #fff !important;
+    cursor: pointer;
+    display: inline-block;
+    margin: 0;
+    position: relative;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25) !important;
+    transition: all 0.15s ease 0s;
+    vertical-align: middle;
+}
+ 
+.navbar-btn:hover,.open .navbar-btn.dropdown-toggle {
+	background-color:#d15b47!important;
+	border-color:#d15b47
+}
+
+.navbar-btn.active {
+	background-color:#d15b47!important;
+	border-color:#d15b47
+}
+
+/*
+底部copyright的样式
+*/
+#footer {
+    background: none repeat scroll 0 0 #d15b47;
+    padding: 25px 0 15px;
+    height: 80px;
+}
+.container a{
+	color:#fff;
+	outline: none;
+}
+
+.container a:hover{
+	color:#fff;
+	text-decoration: none;
+}
+
+.copyright {
+    color: #fff;
+    text-align: center;
+    font-size: 17px;
+    bottom: 3px;
+    margin-bottom:1px;
+}
+
+/**
+ * Ajax数据加载提示
+*/
+.progressBar {
+	border: solid 2px #86A5AD;
+	background: white url(../image/loading.gif) no-repeat 10px 10px;
+}
+.progressBar {
+	display: block;
+	width: 248px;
+	height: 48px;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-left: -74px;
+	margin-top: -14px;
+	padding: 10px 10px 10px 50px;
+	text-align: left;
+	line-height: 27px;
+	font-weight: bold;
+	position: absolute;
+	z-index: 2001;
+}
+/*
+分割线  红色
+*/
+.hr-line {
+    border-bottom: 1px solid #c92828;
+    margin-bottom: 10px;
+}
+
+.shaodai{
+	background-image:url(../../static/image/customization_sharing_car.png);
+	background-repeat:no-repeat;
+	background-position: 0px ;
+	margin-left: -2px;
+	margin-right: -3px;
+	width:100%;
+	letter-spacing:30px
+}
+.wenda{
+	background-image:url(../../static/image/customization_task.png);
+	background-repeat:no-repeat;
+	background-position: 0px ;
+	margin-left: -2px;
+	margin-right: -3px;
+	width:100%;
+	letter-spacing:30px
+}
+.paotui{
+	background-image:url(../../static/image/customization_paotui.png);
+	background-repeat:no-repeat;
+	background-position: 0px ;
+	margin-left: -2px;
+	margin-right: -3px;
+	width:100%;
+	letter-spacing:30px
+}
+.xiaoshigong{
+	background-image:url(../../static/image/customization_hourl_labour.png);
+	background-repeat:no-repeat;
+	background-position: 0px ;
+	margin-left: -2px;
+	margin-right: -3px;
+	width:100%;
+	letter-spacing:30px
+}
+.huodong{
+	background-image:url(../../static/image/customization_activity.png);
+	background-repeat:no-repeat;
+	background-position: 0px ;
+	margin-left: -2px;
+	margin-right: -3px;
+	width:100%;
+	letter-spacing:30px
+}
+
+.webIcon_5{
+	background-image:url(../../static/image/customization_activity.png);
+	background-repeat:no-repeat;
+	background-position: 0px ;
+	margin-left: -2px;
+	margin-right: -3px;
+	width:100%;
+	letter-spacing:30px
+}
+
+ 
+ 
+

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace = "Agent">
+
+
+<!-- 添加 -->
+<insert id="insertWithId" parameterClass="com.jyw.entity.Agent" >
+	insert into agent (agentId,agentName,linkUserName,linkTelephone,createdTime)
+	values(#agentId#,#agentName#,#linkUserName#,#linkTelephone#,#createdTime#)
+	    <selectKey resultClass="int" keyProperty="agentId" >
+            SELECT @@IDENTITY AS agentId
+        </selectKey>
+</insert>
+
+<!-- 分页查询审核 -->
+<select id="queryList" parameterClass="org.jxjz.base.ibatis.Query" resultClass="java.util.HashMap">
+	select  agentId,agentName,linkUserName,linkTelephone from agent	where 1=1
+	
+</select>
+
+
+<!-- 分页查询审核 -->
+<select id="queryPagelist" parameterClass="org.jxjz.base.model.PageModel" resultClass="java.util.HashMap">
+	select  *
+	from agent
+	where 1=1
+	<dynamic>
+		<isNotEmpty prepend="and" property="params.telephone">
+			telephone  like  CONCAT  ("%",#params.telephone#,"%")
+		</isNotEmpty>
+	</dynamic>
+	 order by createdTime DESC
+	limit #startRow#,#pageSize#
+</select>
+<!-- 查询总条数审核 -->
+<select id="queryCount"  parameterClass="org.jxjz.base.model.PageModel" resultClass="java.lang.Integer">
+	select count(*)  
+	from agent
+	where 1=1
+	<dynamic>
+		<isNotEmpty prepend="and" property="params.telephone">
+			telephone  like  CONCAT  ("%",#params.telephone#,"%")
+		</isNotEmpty>
+	</dynamic>
+</select>
+
+<!-- 通用查询 -->
+<select id="findById" parameterClass="java.lang.Integer" resultClass="com.jyw.entity.Agent">
+	select *  from  agent where agentId=#agentId#  
+</select>
+ 
+  
+</sqlMap>
