@@ -16,7 +16,7 @@ public class IndexController extends BaseAction {
 	@RequestMapping(params = "sysIndex")  
 	public String sysIndex() {
 		 
-		return "jyw/index";
+		return "page/index";
 	}    	
  
 	

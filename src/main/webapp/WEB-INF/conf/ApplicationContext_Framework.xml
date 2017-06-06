@@ -17,7 +17,7 @@
 			<value>com.mysql.jdbc.Driver</value>
 		</property>
 		<property name="jdbcUrl">
-			<value>jdbc:mysql://192.168.0.156:3306/hjf?useUnicode=true&amp;characterEncoding=UTF-8</value>
+			<value>jdbc:mysql://54.237.215.197:3306/hjf?useUnicode=true&amp;characterEncoding=UTF-8</value>
 		</property>
 		<property name="user"><value>root</value></property>
 		<property name="password"><value>root</value>	</property>

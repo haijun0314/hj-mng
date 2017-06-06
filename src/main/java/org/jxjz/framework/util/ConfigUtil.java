@@ -9,6 +9,7 @@ public class ConfigUtil {
 	 public  static String  sys_secKey;
 	 public  static String  sys_appSecret;
 	 public  static String  server_app_host_url;
+	 public  static String  server_solr_host_url;
 	 public  static String  sys_uploadPath;
 	 public  static String  server_mng_host;
 	 public  static String  sys_session_mode;
@@ -30,8 +31,9 @@ public class ConfigUtil {
 		sys_appSecret		=PropUtils.getMsgStr("sys.appSecret");
 		server_app_host_url =PropUtils.getMsgStr("server.app.host.url");
 		server_mng_host		=PropUtils.getMsgStr("server.mng.host");
-		sys_session_mode	=PropUtils.getMsgStr("sys_session_mode");
+		sys_session_mode	=PropUtils.getMsgStr("sys.session.mode");
 		sys_user_defaultPassword=PropUtils.getMsgStr("sys.user.defaultPassword");
+		server_solr_host_url =PropUtils.getMsgStr("server.solr.host.url");
 		 
 	}		
  
